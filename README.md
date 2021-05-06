@@ -5,10 +5,17 @@ MiniRos is a small autonomous UGV-Unmanned ground vehicle developed for educatio
 ![MiniROS 3D design](https://github.com/TriKnight/miniros/blob/master/figures/minibot_3.png)
 
 ## Installation
+
 Step 1. Install Ubuntu 18.04 and  [ROS Melodic!](http://wiki.ros.org/melodic/Installation/Ubuntu)
+
 Step 2. Following [ROS Tutorial](http://wiki.ros.org/ROS/Tutorials) and create **catkin_ws**
-Step 3. Install ROS dependences
 
+Step 3. Git clone Miniros repos:
 
+```
+git clone https://github.com/TriKnight/miniros/
+```
+
+Step 4. 
 
 
