@@ -63,5 +63,21 @@ CTRL-C to quit
 ```
 ## II. Running SLAM GMapping
 [![MiniROS running SLAM](https://j.gifs.com/GRnOr7.gif)](https://www.youtube.com/watch?v=ZCQJhtsWnWg)
+### 1. Running Miniros Gazebo Enviroment
+```
+roslaunch miniros_gazebo miniros_cpr_construction.launch 
+```
+### 2. Running teleop_keyboard
+```
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py 
 
+```
+### 3. Running SLAM Gmapping
+```
+roslaunch miniros_navigation gmapping.launch 
+```
+### 4. Open Rviz enviroment
+```
+roslaunch miniros_description miniros_rviz.launch 
 
+```
