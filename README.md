@@ -10,11 +10,12 @@ Step 1. Install Ubuntu 18.04 and  [ROS Melodic!](http://wiki.ros.org/melodic/Ins
 
 Step 2. Following [ROS Tutorial](http://wiki.ros.org/ROS/Tutorials) and create **catkin_ws**
 
-Step 3. Git clone Miniros repos:
+Step 3. Git clone Miniros and some repos:
 
 ```
 cd ~/catkin_ws/src
 git clone https://github.com/TriKnight/miniros/
+git clone https://github.com/ros-teleop/teleop_twist_keyboard
 ```
 
 Step 4. Install all ROS dependences
