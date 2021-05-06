@@ -13,9 +13,15 @@ Step 2. Following [ROS Tutorial](http://wiki.ros.org/ROS/Tutorials) and create *
 Step 3. Git clone Miniros repos:
 
 ```
+cd ~/catkin_ws/src
 git clone https://github.com/TriKnight/miniros/
 ```
 
-Step 4. 
+Step 4. Install all ROS dependences
+
+```
+cd ~/catkin_ws
+rosdep install --from-paths src --ignore-src -r -y
+```
 
 
