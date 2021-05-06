@@ -28,7 +28,7 @@ catkin_make
 Step 5. Running Miniros empty world gazebo enviroments 
 
 ```
-roslaunch miniros_gazebo minibot_world.launch
+roslaunch miniros_gazebo miniros_world.launch
 ```
 ![Minibot in world](https://github.com/TriKnight/miniros/blob/master/figures/Screen%20Shot%202021-05-06%20at%2010.45.39%20PM.png)
 Then open the new terminal
