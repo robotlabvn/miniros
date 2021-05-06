@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+ <param name="office_geom" command="$(find xacro)/xacro --inorder '$(find cpr_office_gazebo)/urdf/office_construction_geometry.urdf.xacro'" />
+
+  <arg name="x_pos" default="-2.0"/>
+  <arg name="y_pos" default="-0.5"/>
+  <arg name="z_pos" default="0.0"/>
+
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  <arg name="world_name" default="$(find cpr_office_gazebo)/worlds/actually_empty_world.world" />
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+  
+  <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+    <arg name="headless" value="false"/>
+    <arg name="debug" value="false"/>
+  </include>
+
+  
+   <param name="robot_description" command="$(find xacro)/xacro --inorder $(find miniros_description)/urdf/miniros.xacro"/>
+
+   <node name="office_world_spawner" pkg="gazebo_ros" type="spawn_model" args="-urdf -model office_geom -param office_geom -x 0 -y 0 -z 0 -Y 0" />
+
+  <node name="miniros_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+   args="-urdf -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos)  -param robot_description -model miniros" />
+
+</launch>

@@ -1,0 +1,320 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="miniros">
+	
+  <!-- Importing external urdf/xacros. -->
+	<xacro:include filename="$(find miniros_description)/urdf/materials.xacro" />
+        <xacro:include filename="$(find miniros_description)/urdf/miniros.gazebo" />
+        <xacro:include filename="$(find miniros_description)/urdf/materials.urdf.xacro" />
+  <!-- Defining macros. -->
+	<xacro:macro name="wheel" params="prefix reflect_x:=1 reflect_y:=1 mimic:=false">
+		<xacro:if value="${prefix[0]=='r'}">
+			<xacro:property name="reflect_y" value="-1" />
+		</xacro:if>
+		<xacro:if value="${prefix[1]=='b'}">
+			<xacro:property name="reflect_x" value="-1" />
+			<xacro:property name="mimic" value="true" />
+		</xacro:if>
+		<link name="${prefix}_wheel_link">
+			<inertial>
+				<mass value="0.414" />
+				<inertia
+					ixx="0.00097298"
+	        ixy="0"
+	        ixz="0"
+	        iyy="0.00132536"
+	        iyz="0"
+	        izz="0.00097299" />
+	    	</inertial>
+	    	<visual>
+	    		<geometry>
+	    			<mesh filename="package://miniros_description/meshes/wheel_link.STL" />
+				</geometry>
+				<material name="black" />
+			</visual>
+      <collision>
+        <geometry>
+          <mesh filename="package://miniros_description/meshes/wheel_link_simple.STL" />
+        </geometry>
+      </collision>
+		</link>
+		<joint
+			name="${prefix}_wheel_joint"
+			type="continuous">
+			<origin
+				xyz="${0.15 * reflect_x} ${0.16317 * reflect_y} 0.0215"
+				rpy="0 0 0" />
+			<parent link="base_link" />
+			<child link="${prefix}_wheel_link" />
+      <axis xyz="0 1 0" />
+			<xacro:if value="${mimic}">
+				<mimic joint="${prefix[0]}f_wheel_joint" />
+			</xacro:if>
+		</joint>
+	</xacro:macro>
+  <xacro:macro name="antenna" params="prefix reflect:=1">
+    <xacro:if value="${prefix=='r'}">
+      <xacro:property name="reflect" value="-1" />
+    </xacro:if>
+    <link name="${prefix}_antenna_link">
+      <inertial>
+        <origin
+          xyz="0 0 0.04965291"
+          rpy="0 0 0" />
+        <mass
+          value="0.01" />
+        <inertia
+          ixx="9.5e-06"
+          ixy="0"
+          ixz="0"
+          iyy="9.5e-06"
+          iyz="0"
+          izz="1E-7" />
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://miniros_description/meshes/antenna_link.STL" />
+        </geometry>
+        <material name="black"/>
+      </visual>
+    </link>
+    <joint
+      name="${prefix}_antenna_joint"
+      type="fixed">
+      <origin
+        xyz="-0.17 ${0.0762 * reflect} 0"
+        rpy="0 0 0" />
+      <parent
+        link="top_link" />
+      <child
+        link="${prefix}_antenna_link" />
+      <axis
+        xyz="0 0 1" />
+    </joint>
+  </xacro:macro>
+
+  <!-- Defining model links. -->
+  <link  name="base_link">
+   <pose>0 0 0.1 0 0 0</pose>
+      <inertial>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <mass
+        value="15" />
+      <inertia
+        ixx="0.01468727"
+        ixy="0"
+        ixz="-1.96e-06"
+        iyy="0.04415555"
+        iyz="0"
+        izz="0.05241402" />
+    </inertial>
+    <visual>
+     <origin xyz="0 0 0" rpy=" 1.5708 0 0"/>
+      <geometry>
+        <mesh filename="package://miniros_description/meshes/than.stl" />
+      </geometry>
+      <material name="gray" />
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0.15"
+        rpy="0 0 0" />
+      <geometry>
+        <box size="0.455 0.426 0.32" />
+      </geometry>
+    </collision>
+  </link>
+  <link  name="top_link">
+    <inertial>
+      <origin
+        xyz="-1.356e-05 0 -0.00296339"
+        rpy="0 0 0" />
+      <mass
+        value="3" />
+      <inertia
+        ixx="0.00607143"
+        ixy="-1e-08"
+        ixz="2e-08"
+        iyy="0.0091304"
+        iyz="-1e-08"
+        izz="0.01516701" />
+    </inertial>
+    <visual>
+      <geometry>
+        <mesh filename="package://miniros_description/meshes/nap.stl" />
+      </geometry>
+      <material name="white" />
+    </visual>
+  </link>
+  
+  <!-- Defining model joints. -->
+  <joint
+    name="fixed_top_joint"
+    type="fixed">
+    <origin
+      xyz="0 0 0.114485752303901"
+      rpy="0 0 0" />
+    <parent link="base_link" />
+    <child link="top_link" />
+  </joint>
+<!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo /-->
+<link name="imu_sensor_link">
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.02 0.02 0.02"/>
+            </geometry>
+        </collision>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="0.02 0.02 0.02"/>
+            </geometry>
+            <material name="iRobot/Red"/>
+        </visual>
+        <inertial>
+            <mass value="0.001" />
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <inertia ixx="0.00000015" ixy="0" ixz="0" iyy="0.00000015" iyz="0" izz="0.00000015" />
+        </inertial>
+    </link>
+
+ <joint type="fixed" name="imu_sensor_joint">
+    <origin xyz="0.1 0 .15" rpy="0 0 0"/>
+    <!--origin xyz="0.1 -0.13 0" rpy="0 1.5707 1.5707"/-->
+    <child link="imu_sensor_link"/>
+    <parent link="base_link"/>
+    <axis xyz="0 0 1" />
+ </joint>
+
+    <link name="base_imu_link" />
+    <joint name="base_imu_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="0 -1.5707 0" />
+      <parent link="imu_sensor_link" />
+      <child link="base_imu_link" />
+    </joint>
+
+
+<!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo /-->
+
+
+    <!-- Arguments -->
+    <xacro:arg name="camera_name"   default="zed" />
+    <xacro:arg name="camera_model"  default="zed" />
+    <xacro:arg name="cam_pos_x"     default="0.0" />
+    <xacro:arg name="cam_pos_y"     default="0.0" />
+    <xacro:arg name="cam_pos_z"     default="0.0" />
+    <xacro:arg name="cam_roll"      default="0.0" />
+    <xacro:arg name="cam_pitch"     default="0.0" />
+    <xacro:arg name="cam_yaw"       default="0.0" />
+
+    <!-- Properties -->
+    <xacro:property name="M_PI"     value="3.1415926535897931" />
+    <xacro:property name="model"    value="$(arg camera_model)" />
+
+    <xacro:if value="${model == 'zed'}">
+        <xacro:property name="baseline" value="0.12" />
+    </xacro:if>
+    <xacro:if value="${model == 'zedm'}">
+        <xacro:property name="baseline" value="0.06" />
+    </xacro:if>
+    <xacro:if value="${model == 'zed2'}">
+        <xacro:property name="baseline" value="0.12" />
+    </xacro:if>
+
+
+<!-- Camera Center -->
+    <joint name="$(arg camera_name)_camera_center_joint" type="fixed">
+    <origin xyz="0.15 0 .130" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="$(arg camera_name)_camera_center"/>
+        <origin xyz="$(arg cam_pos_x) $(arg cam_pos_y) $(arg cam_pos_z)" rpy="$(arg cam_roll) $(arg cam_pitch) $(arg cam_yaw)" />
+    </joint>
+
+    <link name="$(arg camera_name)_camera_center">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://miniros_description/meshes/${model}.stl" />
+            </geometry>
+            <material name="${model}_mat" />
+        </visual>
+    </link>
+
+<!-- Left Camera -->
+    <joint name="$(arg camera_name)_left_camera_joint" type="fixed">
+        <parent link="$(arg camera_name)_camera_center"/>
+        <child link="$(arg camera_name)_left_camera_frame"/>
+        <origin xyz="0 ${baseline/2} 0" rpy="0 0 0" />
+    </joint>
+
+    <link name="$(arg camera_name)_left_camera_frame" />
+
+    <joint name="$(arg camera_name)_left_camera_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="-${M_PI/2} 0.0 -${M_PI/2}"/>
+        <parent link="$(arg camera_name)_left_camera_frame"/>
+        <child link="$(arg camera_name)_left_camera_optical_frame"/>
+    </joint>
+
+    <link name="$(arg camera_name)_left_camera_optical_frame"/>
+
+<!-- Right Camera -->
+    <joint name="$(arg camera_name)_right_camera_joint" type="fixed">
+        <parent link="$(arg camera_name)_camera_center"/>
+        <child link="$(arg camera_name)_right_camera_frame"/>
+        <origin xyz="0 -${baseline/2} 0" rpy="0 0 0" />
+    </joint>
+
+    <link name="$(arg camera_name)_right_camera_frame" />
+
+    <joint name="$(arg camera_name)_right_camera_optical_joint" type="fixed">
+        <origin xyz="0 0 0" rpy="-${M_PI/2} 0.0 -${M_PI/2}"/>
+        <parent link="$(arg camera_name)_right_camera_frame"/>
+        <child link="$(arg camera_name)_right_camera_optical_frame"/>
+    </joint>
+
+    <link name="$(arg camera_name)_right_camera_optical_frame"/>
+
+
+
+
+  <!-- Hokuyo Laser -->
+  <link name="hokuyo">
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+    <box size="0.1 0.1 0.1"/>
+      </geometry>
+    </collision>
+
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://miniros_description/meshes/hokuyo.dae"/>
+      </geometry>
+    </visual>
+
+    <inertial>
+      <mass value="1e-5" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="1e-6" ixy="0" ixz="0" iyy="1e-6" iyz="0" izz="1e-6" />
+    </inertial>
+  </link>
+
+<joint name="hokuyo_joint" type="fixed">
+    <axis xyz="0 1 0" />
+    <origin xyz=".1 0 .15" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="hokuyo"/>
+  </joint>
+  <!-- Building links/joints from macros. -->
+  <xacro:antenna prefix="l" />
+  <xacro:antenna prefix="r" />
+	<xacro:wheel prefix="lf" />
+	<xacro:wheel prefix="rf" />
+	<xacro:wheel prefix="lb" />
+	<xacro:wheel prefix="rb" />
+
+</robot>

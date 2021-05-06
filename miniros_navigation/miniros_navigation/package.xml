@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package>
+  <name>miniros_navigation</name>
+  <version>0.1.0</version>
+  <description>
+	This is a launch bag with all navigation nodes
+  </description>
+
+  
+  <maintainer email="robotlabvn@gmail.com">Minh Tri</maintainer>
+
+  <license>BSD</license>
+
+  <url type="repository">https://github.com/robotlabvn/miniros</url>
+
+  <author email="robotlabvn@gmail.com">Minh Tri</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+
+  <run_depend>amcl</run_depend>
+  <!-- Not included <run_depend>gmapping</run_depend> -->
+  <run_depend>map_server</run_depend>
+  <run_depend>move_base</run_depend>
+  <run_depend>navfn</run_depend>
+  <run_depend>base_local_planner</run_depend>
+  <run_depend>dwa_local_planner</run_depend>
+
+</package>
