@@ -62,5 +62,6 @@ e/c : increase/decrease only angular speed by 10%
 CTRL-C to quit
 ```
 ## II. Running SLAM GMapping
-![MiniROS Running SLAM](https://j.gifs.com/GRnOr7.gif)
+[![MiniROS running SLAM](https://j.gifs.com/GRnOr7.gif)](https://www.youtube.com/watch?v=ZCQJhtsWnWg)
+
 
