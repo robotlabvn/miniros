@@ -22,6 +22,13 @@ Step 4. Install all ROS dependences
 ```
 cd ~/catkin_ws
 rosdep install --from-paths src --ignore-src -r -y
+catkin_make
 ```
+Step 5. Running Miniros empty world gazebo enviroments 
+
+```
+roslaunch miniros_gazebo minibot_world.launch
+```
+
 
 
