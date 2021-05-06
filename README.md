@@ -77,7 +77,14 @@ rosrun teleop_twist_keyboard teleop_twist_keyboard.py
 roslaunch miniros_navigation gmapping.launch 
 ```
 ### 4. Open Rviz enviroment
+
 ```
 roslaunch miniros_description miniros_rviz.launch 
 
+```
+### 5. Saving the map
+Launch the map_saver node in the map_server package to create map files.
+The map file is saved in the directory where the map_saver node is launched at.
+```
+rosrun map_server map_saver -f ~/map
 ```
