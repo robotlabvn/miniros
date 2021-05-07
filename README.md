@@ -88,3 +88,4 @@ The map file is saved in the directory where the map_saver node is launched at.
 ```
 rosrun map_server map_saver -f ~/map
 ```
+
